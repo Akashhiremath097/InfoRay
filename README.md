@@ -49,17 +49,11 @@ API built with Flask, static frontend with HTML/CSS/JS.
 📁 Directory Structure
 .
 ├── ai_processing/
-
 │   ├── ai_processing_pipeline.py
-
 │   ├── category_classifier.py
-
 │   ├── image_resolver.py
-
 │   ├── sentiment_analyzer.py
-
 │   ├── summarizer.py
-
 │   └── models/
 
 │
