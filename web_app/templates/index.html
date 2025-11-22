@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="icon" type="image/png" href="static/inforay_logo.png">
+<link rel="shortcut icon" href="static/inforay_logo.png">
+
+
+<section class="hero">
+    <h2 class="hero-head">Top Stories</h2>
+    <p class="hero-text" id="heroDynamic">Loading...</p>
+
+    <div class="hero-meta">
+        <span class="badge-cat">Politics</span>
+        <small id="heroTime"></small>
+    </div>
+</section>
+
+<h2 class="section-title">Latest Headlines</h2>
+
+<div id="pageSkeleton" class="skeleton-grid">
+    <div class="card-skel"></div>
+    <div class="card-skel"></div>
+    <div class="card-skel"></div>
+</div>
+
+<div id="articles" class="news-grid d-none"></div>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+# data_fetcher/fetch_news.py
+import requests
+from data_fetcher.config import NEWSAPI_KEY, NEWSAPI_ENDPOINT, NEWSAPI_COUNTRY, FETCH_PAGE_SIZE
+from data_fetcher.db_manager import insert_raw_article
+import logging
+from datetime import datetime
+
+logger = logging.getLogger(__name__)
+
+def fetch_from_newsapi(query=None, page_size=FETCH_PAGE_SIZE):
+    if not NEWSAPI_KEY:
+        logger.warning("NEWSAPI_KEY not set. Skipping NewsAPI fetch.")
+        return []
+
+    params = {
+        "apiKey": NEWSAPI_KEY,
+        "country": NEWSAPI_COUNTRY,
+        "pageSize": page_size
+    }
+    if query:
+        params["q"] = query
+
+    try:
+        r = requests.get(NEWSAPI_ENDPOINT, params=params, timeout=10)
+        r.raise_for_status()
+        payload = r.json()
+        articles = payload.get("articles", [])
+        cleaned = []
+        for a in articles:
+            doc = {
+                "title": a.get("title"),
+                "url": a.get("url"),
+                "publishedAt": a.get("publishedAt"),
+                "source": a.get("source", {}).get("name"),
+                "content": a.get("content") or a.get("description") or "",
+                "fetched_at": datetime.utcnow()
+            }
+            # minimal sanity checks
+            if doc["url"] and doc["title"]:
+                cleaned.append(doc)
+        return cleaned
+    except Exception as e:
+        logger.exception("Error fetching from NewsAPI: %s", e)
+        return []
+
+def fetch_and_store():
+    articles = fetch_from_newsapi()
+    inserted = 0
+    for a in articles:
+        insert_raw_article(a)
+        inserted += 1
+    logger.info(f"Fetched and processed {inserted} articles.")
+    return inserted
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    fetch_and_store()

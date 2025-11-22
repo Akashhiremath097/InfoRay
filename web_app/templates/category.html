@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="section-title">{{ category }} News</h2>
+
+<div id="articles" class="news-grid"></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        loadArticles("{{ category }}");
+    });
+</script>
+
+{% endblock %}

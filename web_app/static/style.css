@@ -1,0 +1,734 @@
+/* ======================================================
+   APPLE iOS 17 GLASS THEME
+   - Light mode: iOS-style milky glass
+   - Dark mode: smoky glass
+====================================================== */
+
+/* ---------- THEME TOKENS (default = DARK GLASS) ---------- */
+:root {
+  --bg-page: radial-gradient(circle at 20% 0%,
+      #111827 0,
+      #020617 40%,
+      #000000 100%);
+  --glass: rgba(15, 23, 42, 0.8);
+  --glass-soft: rgba(15, 23, 42, 0.6);
+  --border-soft: rgba(148, 163, 184, 0.45);
+
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
+
+  --accent: #0f9dff;      /* Apple blue */
+  --accent-soft: rgba(15, 157, 255, 0.16);
+
+  --radius-xl: 26px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+
+  --shadow-strong: 0 24px 60px rgba(0, 0, 0, 0.65);
+  --shadow-soft: 0 16px 38px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------- LIGHT MODE (iOS 17 GLASS) ---------- */
+body.light {
+  --bg-page: radial-gradient(circle at 0% 0%,
+      #ffffff 0,
+      #e4ecff 40%,
+      #dde5f7 100%);
+  --glass: rgba(255, 255, 255, 0.7);
+  --glass-soft: rgba(255, 255, 255, 0.55);
+  --border-soft: rgba(255, 255, 255, 0.85);
+
+  --text-main: #111827;
+  --text-muted: #6b7280;
+
+  --accent: #007aff;          /* iOS system blue */
+  --accent-soft: rgba(0, 122, 255, 0.14);
+
+  --shadow-strong: 0 22px 60px rgba(15, 23, 42, 0.35);
+  --shadow-soft: 0 14px 32px rgba(15, 23, 42, 0.22);
+}
+
+/* ======================================================
+   GLOBAL
+====================================================== */
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+body {
+  background: var(--bg-page);
+  color: var(--text-main);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+}
+
+/* Remove ugly scrollbars edge cases */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* ======================================================
+   TOP BAR (Apple-style blurred nav)
+====================================================== */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 10px 22px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background: linear-gradient(
+      to bottom,
+      rgba(15, 23, 42, 0.42),
+      rgba(15, 23, 42, 0.1),
+      transparent
+  );
+}
+
+body.light .topbar {
+  background: linear-gradient(
+      to bottom,
+      rgba(248, 250, 252, 0.75),
+      rgba(248, 250, 252, 0.35),
+      transparent
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.topbar-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+/* Brand */
+.brand {
+  font-weight: 800;
+  font-size: 1.7rem;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  color: var(--accent);
+}
+/* Brand wrapper */
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+/* Logo styling */
+.app-logo {
+  height: 36px;
+  width: 36px;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 0 14px rgba(0, 140, 255, 0.45);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Hover animation */
+.brand-logo:hover .app-logo {
+  transform: scale(1.08);
+  box-shadow: 0 0 18px rgba(0, 140, 255, 0.6);
+}
+
+/* Brand text */
+.brand-text {
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  background: linear-gradient(90deg, #4fa3ff, #007aff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+body.light .app-logo {
+  box-shadow: 0 0 12px rgba(0, 122, 255, 0.45);
+}
+
+body:not(.light) .app-logo {
+  filter: brightness(1.2);
+}
+
+
+
+/* Center nav links */
+.nav-links {
+  display: flex;
+  gap: 22px;
+}
+
+.nav-item {
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.98rem;
+  padding-bottom: 4px;
+  position: relative;
+}
+
+.nav-item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+
+.nav-item:hover {
+  color: var(--text-main);
+}
+
+.nav-item:hover::after {
+  width: 100%;
+}
+
+/* Right: search + mode toggle in one glass pill */
+.search-holder {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px 4px 14px;
+  border-radius: 999px;
+  background: var(--glass-soft);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text-main);
+  width: 220px;
+  font-size: 0.94rem;
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+/* Mode toggle (sun/moon) */
+.mode-btn {
+  border: none;
+  border-radius: 999px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* ======================================================
+   PAGE LAYOUT
+====================================================== */
+
+.page-layout {
+  max-width: 1280px;
+  margin: 14px auto 32px;
+  padding: 0 18px 24px;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 22px;
+}
+
+/* ======================================================
+   SIDEBAR (glass panel)
+====================================================== */
+
+.sidebar {
+  background: var(--glass);
+  border-radius: var(--radius-xl);
+  padding: 20px 18px;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
+}
+
+.side-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* Category pill (Apple Music-like list) */
+.chip-pill {
+  background: var(--glass-soft);
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  padding: 9px 15px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.2s ease;
+}
+
+.chip-pill:hover {
+  background: var(--accent-soft);
+  transform: translateY(-1px);
+}
+
+.chip-pill.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+/* ======================================================
+   HERO SECTION (Top Stories glass card)
+====================================================== */
+
+.hero {
+  background: var(--glass);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-soft);
+  padding: 22px 26px;
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
+  margin-bottom: 24px;
+}
+
+.hero-head {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.hero-text {
+  font-size: 0.98rem;
+  color: var(--text-muted);
+}
+
+.hero-meta {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Category badge like iOS rounded pill */
+.badge-cat {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ======================================================
+   SECTION TITLE
+====================================================== */
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 4px 0 16px 2px;
+}
+
+/* ======================================================
+   NEWS GRID & CARDS (Glass cards)
+====================================================== */
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+@media (max-width: 1100px) {
+  .news-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 780px) {
+  .page-layout {
+    grid-template-columns: 1fr;
+  }
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card container */
+.news-card {
+  background: var(--glass);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-soft);
+  overflow: hidden;
+  box-shadow: var(--shadow-strong);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-6px) translateZ(0);
+  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.6);
+  border-color: var(--accent-soft);
+}
+
+/* Top image region */
+.thumb-wrap {
+  overflow: hidden;
+}
+
+.news-thumb {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+.news-card:hover .news-thumb {
+  transform: scale(1.04);
+}
+
+/* Text */
+.news-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  padding: 12px 16px 4px;
+}
+
+.news-summary {
+  padding: 0 16px 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* Optional meta row */
+.news-meta-row {
+  padding: 0 16px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* ======================================================
+   SKELETON LOADING
+====================================================== */
+
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.card-skel {
+  height: 240px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(110deg,
+      rgba(148, 163, 184, 0.15) 0%,
+      rgba(148, 163, 184, 0.05) 40%,
+      rgba(148, 163, 184, 0.15) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -120% 0; }
+  100% { background-position: 120% 0; }
+}
+
+/* ======================================================
+   MODAL — GLASS ARTICLE VIEWER (uses variables)
+====================================================== */
+
+/* Backdrop blur */
+.modal-backdrop.show {
+  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.55);
+}
+
+/* Animation */
+.modal.fade .modal-dialog {
+  transform: translateY(-18px);
+  opacity: 0;
+  transition: all 0.25s ease;
+}
+.modal.show .modal-dialog {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Size */
+.modal-custom-size {
+  max-width: 900px !important;
+}
+
+/* Glass container */
+.custom-modal {
+  background: var(--glass) !important;
+  border-radius: 22px;
+  border: 1px solid var(--border-soft) !important;
+  color: var(--text-main) !important;
+  padding: 16px 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-strong);
+  backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
+}
+
+/* Close button */
+.modal-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: var(--glass-soft) !important;
+  border: 1px solid var(--border-soft) !important;
+  color: var(--text-main) !important;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-close-btn:hover {
+  background: var(--accent-soft) !important;
+}
+
+/* Nav arrows */
+.modal-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--glass-soft) !important;
+  border: 1px solid var(--border-soft) !important;
+  color: var(--text-main) !important;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  font-size: 1.45rem;
+  cursor: pointer;
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: 0.2s ease;
+}
+.modal-nav-btn:hover {
+  background: var(--accent-soft) !important;
+}
+.modal-nav-btn.left { left: 10px; }
+.modal-nav-btn.right { right: 10px; }
+
+/* Image */
+.modal-full-image {
+  width: 100%;
+  border-radius: 18px;
+  margin-bottom: 14px;
+}
+.zoomable {
+  transition: transform 0.25s ease;
+  cursor: zoom-in;
+}
+.zoomable:hover {
+  transform: scale(1.03);
+}
+
+/* Text */
+.modal-title-text {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: var(--text-main) !important;
+}
+.modal-summary-text {
+  font-size: 1rem;
+  line-height: 1.55;
+  margin-bottom: 20px;
+  color: var(--text-muted) !important;
+}
+.modal-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal-meta {
+  font-size: 0.9rem;
+  color: var(--text-muted) !important;
+}
+
+/* Button */
+.modal-read-btn {
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 650;
+  text-decoration: none;
+  border: none;
+}
+.modal-read-btn:hover {
+  opacity: 0.9;
+}
+
+/* ======================================================
+   RESPONSIVE
+====================================================== */
+@media (max-width: 700px) {
+  .topbar-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .nav-links {
+    order: 3;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+  .search-holder {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .page-layout {
+    grid-template-columns: 1fr;
+  }
+  .modal-custom-size {
+    max-width: 96% !important;
+  }
+}
+.news-card {
+  margin-top: 2px;
+  transform: translateY(0) translateZ(0);
+}
+
+.news-card:hover {
+  transform: translateY(-6px) translateZ(0);
+}
+/* === FINAL GLASS TWEAKS & CONTRAST FIXES === */
+
+/* Make sure all main headings are bright in both modes */
+.hero-head,
+.section-title,
+.news-title {
+  color: var(--text-main) !important;
+}
+
+/* Make summaries slightly brighter but still secondary */
+.news-summary {
+  color: var(--text-muted) !important;
+}
+
+/* Ensure sidebar label stays readable */
+.side-title {
+  color: var(--text-main) !important;
+}
+
+/* In dark mode, make glass a tiny bit lighter for content panels */
+body:not(.light) .hero,
+body:not(.light) .news-card {
+  background: rgba(15, 23, 42, 0.9) !important;
+}
+
+/* Make "Latest Headlines" stand out with a touch more spacing */
+.section-title {
+  margin-top: 8px;
+  letter-spacing: 0.01em;
+}
+.news-card {
+  margin-top: 2px;
+  transform: translateY(0) translateZ(0);
+}
+
+.news-card:hover {
+  transform: translateY(-6px) translateZ(0);
+}
+/* Make cards nearly square */
+.card, .glass-card, .info-card {
+    border-radius: 6px !important;
+}
+
+/* Make all buttons nearly square */
+button, .btn, .primary-btn, .secondary-btn {
+    border-radius: 6px !important;
+}
+
+/* Inputs also look cleaner if they match */
+input, select, textarea {
+    border-radius: 6px !important;
+}
+.news-card {
+    padding: 20px 24px !important;  /* more breathing room */
+}
+.hero,.sidebar {
+    border-radius: 6px !important;   /* nearly square */
+    padding: 24px 28px !important;   /* optional but looks cleaner */
+}
+.chip-pill {
+    padding: 10px 16px !important;   /* slightly bigger pills */
+    border-radius: 6px !important;    /* nearly square */
+}
+.search-holder {
+    padding: 6px 10px 6px 16px !important;  /* slightly bigger */
+    border-radius: 6px !important;          /* nearly square */
+}
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+    gap: 24px; /* spacing between cards */
+}
+
+/* Make each card smaller and tighter */
+.news-card {
+    padding: 16px !important;
+    border-radius: 6px !important;
+}
+.categories-panel, 
+.sidebar-card, 
+.sidebar, 
+.category-box {
+    border: none !important;
+    box-shadow: none !important;
+}
+.news-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.news-meta {
+    margin-top: auto;   /* pushes it to the bottom */
+}
+.news-summary {
+    margin-bottom: 12px;  /* space before meta */
+}
